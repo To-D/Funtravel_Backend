@@ -1,9 +1,6 @@
 package pers.jaxon.funtravel.controller;
 
-import pers.jaxon.funtravel.domain.TokenProcessor;
 import pers.jaxon.funtravel.domain.User;
-import pers.jaxon.funtravel.exception.UsernameHasBeenRegisteredException;
-import pers.jaxon.funtravel.exception.EmailHasBeenRegisteredException;
 import pers.jaxon.funtravel.security.jwt.JwtTokenUtil;
 import pers.jaxon.funtravel.service.AuthService;
 import pers.jaxon.funtravel.controller.request.LoginRequest;
@@ -13,6 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class AuthController {
@@ -28,26 +28,17 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
         Object res = authService.register(request);
-//        if(res.equals("username duplicated")){
-//            throw new UsernameHasBeenRegisteredException(request.getUsername());
-//        }
-//        if(res.equals("email duplicated")){
-//            throw new EmailHasBeenRegisteredException(request.getEmail());
-//        }
         if(res.equals("username duplicated") || res.equals("email duplicated")){
             return ResponseEntity.ok((String)res);
         }
 
-
         User user = (User)res;
         String token = jwtTokenUtil.generateToken(user);
-        TokenProcessor t = new TokenProcessor();
-        t.setToken(token);
-        return ResponseEntity.ok(t.getToken());
+        return ResponseEntity.ok(token);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenProcessor> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<Map> login(@RequestBody LoginRequest request) {
         Object msg = authService.login(request.getUserIdentifier(), request.getPassword());
         if(msg.equals("notFound")) {
             throw new UsernameNotFoundException(request.getUserIdentifier());
@@ -56,9 +47,10 @@ public class AuthController {
         } else{
             User user = (User)msg;
             String token = jwtTokenUtil.generateToken(user);
-            TokenProcessor t = new TokenProcessor();
-            t.setToken(token);
-            return ResponseEntity.ok(t);
+            Map<String,String> response = new HashMap<>();
+            response.put("token",token);
+            response.put("username",user.getUsername());
+            return ResponseEntity.ok(response);
         }
     }
 }

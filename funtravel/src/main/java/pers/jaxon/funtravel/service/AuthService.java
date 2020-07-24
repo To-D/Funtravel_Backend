@@ -39,6 +39,7 @@ public class AuthService {
                 request.getEmail()
         );
         userRepository.save(newUser);
+
         return newUser;
 
     }

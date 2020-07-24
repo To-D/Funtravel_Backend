@@ -12,11 +12,15 @@ public class User implements UserDetails {
 
     private static final long serialVersionUID = -6140085056226164016L;
 
-    @Id // 表明主键
-    @GeneratedValue(strategy = GenerationType.AUTO) // 表明自增长
+    // 与pictures的一对多关系
+    @OneToMany(mappedBy = "uploader")
+    private Set<Picture> pictures = new HashSet<>();
+
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Long id;
 
+    @Id
     @Column(name="user_name",nullable = false,unique = true,length=20)
     private String username;
 
@@ -110,13 +114,13 @@ public class User implements UserDetails {
 //        this.conferences = conferences;
 //    }
 //
-//    public Set<Message> getMessages() {
-//        return messages;
-//    }
-//
-//    public void setMessages(Set<Message> messages) {
-//        this.messages = messages;
-//    }
+    public Set<Picture> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(Set<Picture> pictures) {
+        this.pictures = pictures;
+    }
 
     @Override
     public String toString() {
