@@ -3,6 +3,7 @@ package pers.jaxon.funtravel.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pers.jaxon.funtravel.controller.request.GetPictureDetailRequest;
 import pers.jaxon.funtravel.controller.request.RegisterRequest;
 import pers.jaxon.funtravel.domain.Picture;
 import pers.jaxon.funtravel.service.PictureService;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class PictureController {
@@ -35,53 +37,9 @@ public class PictureController {
 
     }
 
-    @GetMapping("/loadimg")
-    public void getImg2(HttpServletResponse response, String id ) {
-
-        //这里省略掉通过id去读取图片的步骤。
-
-        File file = new File("/resources/pictures/picture4.jpg");//imgPath为服务器图片地址
-        if(file.exists() && file.isFile()){
-
-            FileInputStream fis = null;
-
-            OutputStream os = null;
-
-            try {
-
-                fis = new FileInputStream(file);
-
-                os = response.getOutputStream();
-
-                int count = 0;
-
-                byte[] buffer = new byte[1024 * 8];
-
-                while ((count = fis.read(buffer)) != -1) {
-
-                    os.write(buffer, 0, count);
-
-                    os.flush();
-
-                }
-
-            } catch (Exception e) {
-
-                e.printStackTrace();
-
-            } finally {
-
-                try {
-
-                    fis.close();
-
-                    os.close();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+    @PostMapping("/getPictureDetail")
+    public ResponseEntity<Map> getPictureDetail(@RequestBody GetPictureDetailRequest request){
+        Map<String,Object> res = pictureService.getPictureDetail(request.getId());
+        return ResponseEntity.ok(res);
     }
-
 }

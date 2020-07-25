@@ -1,14 +1,20 @@
 package pers.jaxon.funtravel.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name="comments")
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer","handler"})
 public class Comment {
-
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "picture_id")
     private Picture picture;
+
+    @Column(name="username")
+    private String username;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,4 +23,39 @@ public class Comment {
 
     @Column(name="comment")
     private String comment;
+
+    @Column(name="time")
+    private Date time;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
 }

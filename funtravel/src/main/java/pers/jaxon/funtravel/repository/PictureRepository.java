@@ -9,11 +9,11 @@ import java.util.List;
 
 @Repository
 public interface PictureRepository extends JpaRepository<Picture, Long> {
-    List<Picture> findByUploader(Long uploader);
+    List<Picture> findByUploader(int uploader);
 
     @Query(value = "select * from pictures order by collection_count desc limit 5", nativeQuery = true)
     List<Picture> findHottestPictures();
 
-    @Query(value = "select * from pictures order by release_time desc limit 6", nativeQuery = true)
+    @Query(value = "select * from pictures order by release_time desc limit 3", nativeQuery = true)
     List<Picture> findNewestPictures();
 }
