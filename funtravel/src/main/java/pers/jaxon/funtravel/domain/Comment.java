@@ -27,6 +27,15 @@ public class Comment {
     @Column(name="time")
     private Date time;
 
+    public Comment(Picture picture,String username, String comment, Date time) {
+        this.picture=picture;
+        this.username = username;
+        this.comment = comment;
+        this.time = time;
+    }
+
+    public Comment(){}
+
     public String getUsername() {
         return username;
     }

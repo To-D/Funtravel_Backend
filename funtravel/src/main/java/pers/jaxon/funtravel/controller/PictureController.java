@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pers.jaxon.funtravel.controller.request.GetPictureDetailRequest;
+import pers.jaxon.funtravel.controller.request.PostCommentRequest;
 import pers.jaxon.funtravel.controller.request.RegisterRequest;
 import pers.jaxon.funtravel.domain.Picture;
 import pers.jaxon.funtravel.service.PictureService;
@@ -41,5 +42,11 @@ public class PictureController {
     public ResponseEntity<Map> getPictureDetail(@RequestBody GetPictureDetailRequest request){
         Map<String,Object> res = pictureService.getPictureDetail(request.getId());
         return ResponseEntity.ok(res);
+    }
+
+    @PostMapping("/postComment")
+    public ResponseEntity<String> postComment(@RequestBody PostCommentRequest request){
+        pictureService.addComment(request);
+        return ResponseEntity.ok("success");
     }
 }

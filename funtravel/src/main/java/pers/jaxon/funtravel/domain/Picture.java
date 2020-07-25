@@ -116,6 +116,13 @@ public class Picture {
         this.url = url;
     }
 
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
+    }
 
 //    public Date getReleaseTime() {
 //        return releaseTime;
