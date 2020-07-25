@@ -39,9 +39,9 @@ public class PictureController {
     }
 
     @PostMapping("/getPictureDetail")
-    public ResponseEntity<Map> getPictureDetail(@RequestBody GetPictureDetailRequest request){
-        Map<String,Object> res = pictureService.getPictureDetail(request.getId());
-        return ResponseEntity.ok(res);
+    public ResponseEntity<Picture> getPictureDetail(@RequestBody GetPictureDetailRequest request){
+        Picture picture = pictureService.getPictureDetail(request.getId());
+        return ResponseEntity.ok(picture);
     }
 
     @PostMapping("/postComment")

@@ -1,23 +1,28 @@
 package pers.jaxon.funtravel.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name="pictures")
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Picture {
-
-    // 对user的多对一关系
+    // 对user的多对一上传关系
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "uploader")
     private User uploader;
 
-    // 对topics的多对多关系
-    @ManyToMany
-    private Set<Topic> topics;
+    // 与user的多对多收藏关系
+    @ManyToMany(fetch=FetchType.LAZY,mappedBy = "collections")
+    private List<User> collectors;
+
+    // 与topics的多对多关系
+    @ManyToMany(fetch=FetchType.LAZY,mappedBy = "pictures")
+    private List<Topic> topics;
 
     // 对comment的一对多关系
     @OneToMany(mappedBy = "picture")
@@ -122,6 +127,33 @@ public class Picture {
 
     public void setComments(Set<Comment> comments) {
         this.comments = comments;
+    }
+
+    public User getUploader() {
+        return uploader;
+    }
+
+    @JsonBackReference
+    public void setUploader(User uploader) {
+        this.uploader = uploader;
+    }
+
+    public List<User> getCollectors() {
+        return collectors;
+    }
+
+    @JsonBackReference
+    public void setCollectors(List<User> collectors) {
+        this.collectors = collectors;
+    }
+
+    public List<Topic> getTopics() {
+        return topics;
+    }
+
+    @JsonBackReference
+    public void setTopics(List<Topic> topics) {
+        this.topics = topics;
     }
 
 //    public Date getReleaseTime() {

@@ -1,5 +1,6 @@
 package pers.jaxon.funtravel.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -66,5 +67,14 @@ public class Comment {
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public Picture getPicture() {
+        return picture;
+    }
+
+    @JsonBackReference
+    public void setPicture(Picture picture) {
+        this.picture = picture;
     }
 }

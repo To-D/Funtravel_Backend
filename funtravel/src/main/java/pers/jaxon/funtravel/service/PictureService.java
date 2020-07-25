@@ -34,13 +34,8 @@ public class PictureService {
         return pictureRepository.findNewestPictures();
     }
 
-    public Map<String, Object> getPictureDetail(Long id) {
-        List<Comment> comments = commentRepository.findByPicture_Id(id);
-        Picture picture = pictureRepository.findById(id).get();
-        Map<String,Object> res = new HashMap<>();
-        res.put("picture",picture);
-        res.put("comments",comments);
-        return res;
+    public Picture getPictureDetail(Long id) {
+        return pictureRepository.findById(id).get();
     }
 
     public void addComment(PostCommentRequest request) {

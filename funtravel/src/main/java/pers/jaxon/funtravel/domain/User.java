@@ -12,15 +12,27 @@ public class User implements UserDetails {
 
     private static final long serialVersionUID = -6140085056226164016L;
 
-    // 与pictures的一对多关系
+    // 与picture的一对多上传关系
     @OneToMany(mappedBy = "uploader")
-    private Set<Picture> pictures = new HashSet<>();
+    private List<Picture> uploads;
 
+    // 与picture的多对多收藏关系
+    @ManyToMany
+    @JoinTable(
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "collection_id")}
+    )
+    private List<Picture> collections;
+
+    // 与user的多对多好友关系
+    @ManyToMany
+    private List<User> friends;
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Long id;
 
-    @Id
     @Column(name="user_name",nullable = false,unique = true,length=20)
     private String username;
 
@@ -105,21 +117,21 @@ public class User implements UserDetails {
     public void setEmail(String email) {
         this.email = email;
     }
-//
-//    public Set<Conference> getConferences() {
-//        return conferences;
-//    }
-//
-//    public void setConferences(Set<Conference> conferences) {
-//        this.conferences = conferences;
-//    }
-//
-    public Set<Picture> getPictures() {
-        return pictures;
+
+    public List<Picture> getUploads() {
+        return uploads;
     }
 
-    public void setPictures(Set<Picture> pictures) {
-        this.pictures = pictures;
+    public void setUploads(List<Picture> uploads) {
+        this.uploads = uploads;
+    }
+
+    public List<Picture> getCollections() {
+        return collections;
+    }
+
+    public void setCollections(List<Picture> collections) {
+        this.collections = collections;
     }
 
     @Override
