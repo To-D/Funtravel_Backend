@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import pers.jaxon.funtravel.controller.request.GetPictureDetailRequest;
 import pers.jaxon.funtravel.controller.request.PostCommentRequest;
 import pers.jaxon.funtravel.controller.request.CollectRequest;
+import pers.jaxon.funtravel.controller.request.SearchRequest;
 import pers.jaxon.funtravel.domain.Picture;
 import pers.jaxon.funtravel.domain.Topic;
 import pers.jaxon.funtravel.service.PictureService;
@@ -64,5 +65,11 @@ public class PictureController {
     public ResponseEntity<String> cancelCollect(@RequestBody CollectRequest request){
         pictureService.cancelFavorite(request);
         return ResponseEntity.ok("success");
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<List> search(@RequestBody SearchRequest request){
+        List<Picture> res = pictureService.search(request);
+        return ResponseEntity.ok(res);
     }
 }

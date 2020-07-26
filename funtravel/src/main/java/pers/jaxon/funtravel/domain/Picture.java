@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -57,8 +58,8 @@ public class Picture {
     @Column(name="url",nullable = false)
     private String url;
 
-//    @Column(name="release_time")
-//    private Date releaseTime;
+    @Column(name="upload_time")
+    private Date uploadTime;
 
     public Long getId() {
         return id;
@@ -177,13 +178,13 @@ public class Picture {
         this.topics = topics;
     }
 
-//    public Date getReleaseTime() {
-//        return releaseTime;
-//    }
-//
-//    public void setReleaseTime(Date releaseTime) {
-//        this.releaseTime = releaseTime;
-//    }
+    public Date getUploadTime() {
+        return uploadTime;
+    }
+
+    public void setUploadTime(Date uploadTime) {
+        this.uploadTime = uploadTime;
+    }
 
 
 }

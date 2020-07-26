@@ -19,8 +19,32 @@ class FuntravelApplicationTests {
 
 	@Test
 	void contextLoads() {
-		Picture picture = pictureRepository.findById((long)1).get();
-		System.out.println(picture);
+		System.out.println("title and count");
+		List<Picture> pictures = pictureRepository.findByTitleAndCollectionCount("%t%");
+		for(Picture picture :pictures){
+			System.out.println(picture);
+		}
+
+		System.out.println("title and uploadtime");
+		pictures = pictureRepository.findByTitleAndUploadTime("%t%");
+		for(Picture picture :pictures){
+			System.out.println(picture);
+		}
+
+		System.out.println("topic and count");
+		pictures = pictureRepository.findByTopicAndCollectionCount("%t%");
+		for(Picture picture :pictures){
+			System.out.println(picture);
+		}
+
+		System.out.println("topic and uploadtime");
+		pictures = pictureRepository.findByTopicAndUploadTime("%t%");
+		for(Picture picture :pictures){
+			System.out.println(picture);
+		}
+
+//		Picture picture = pictureRepository.findById((long)1).get();
+//		System.out.println(picture);
 //		System.out.println(pictureRepository.findAll());
 //		System.out.println(commentRepository.findAll());
 //		System.out.println(commentRepository.findById((long)2));

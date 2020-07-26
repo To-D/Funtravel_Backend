@@ -4,11 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pers.jaxon.funtravel.controller.request.PostCommentRequest;
 import pers.jaxon.funtravel.controller.request.CollectRequest;
+import pers.jaxon.funtravel.controller.request.SearchRequest;
 import pers.jaxon.funtravel.domain.Comment;
 import pers.jaxon.funtravel.domain.Picture;
 import pers.jaxon.funtravel.domain.User;
 import pers.jaxon.funtravel.repository.CommentRepository;
 import pers.jaxon.funtravel.repository.PictureRepository;
+import pers.jaxon.funtravel.repository.TopicRepository;
 import pers.jaxon.funtravel.repository.UserRepository;
 
 import java.util.*;
@@ -18,12 +20,14 @@ public class PictureService {
     PictureRepository pictureRepository;
     CommentRepository commentRepository;
     UserRepository userRepository;
+    TopicRepository topicRepository;
 
     @Autowired
-    public PictureService(PictureRepository pictureRepository,CommentRepository commentRepository,UserRepository userRepository) {
+    public PictureService(PictureRepository pictureRepository,CommentRepository commentRepository,UserRepository userRepository,TopicRepository topicRepository) {
         this.pictureRepository = pictureRepository;
         this.commentRepository = commentRepository;
         this.userRepository = userRepository;
+        this.topicRepository = topicRepository;
     }
 
     public List<Picture> getHottestPictures() {
@@ -93,4 +97,27 @@ public class PictureService {
         pictureRepository.save(picture);
     }
 
+    public List<Picture> search(SearchRequest request) {
+        String keyword = "%"+request.getKeyword()+"%";
+        String filter = request.getFilter();
+        String sort = request.getSort();
+        List<Picture> res = new LinkedList<>();
+
+        if(filter.equals("TITLE") && sort.equals("FAVORITE HOT") ){
+             return pictureRepository.findByTitleAndCollectionCount(keyword);
+        }
+
+        if(filter.equals("TITLE") && sort.equals("UPDATE TIME") ){
+            return pictureRepository.findByTitleAndUploadTime(keyword);
+        }
+
+        if(filter.equals("TOPIC") && sort.equals("FAVORITE HOT")){
+            return pictureRepository.findByTopicAndCollectionCount(keyword);
+        }
+
+        if(filter.equals("TOPIC") && sort.equals("UPDATE TIME")){
+            return pictureRepository.findByTopicAndUploadTime(keyword);
+        }
+        return res;
+    }
 }
