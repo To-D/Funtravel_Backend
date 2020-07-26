@@ -13,10 +13,10 @@ public class User implements UserDetails {
     private static final long serialVersionUID = -6140085056226164016L;
 
     // 与picture的一对多上传关系
-    @OneToMany(mappedBy = "uploader")
+    @OneToMany(mappedBy = "uploader",fetch=FetchType.EAGER)
     private List<Picture> uploads;
 
-    // 与picture的多对多收藏关系
+    // 与picture的一对多收藏关系
     @ManyToMany
     @JoinTable(
             joinColumns = {@JoinColumn(name = "user_id")},

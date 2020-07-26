@@ -9,11 +9,7 @@ import java.util.List;
 public class Topic {
 
     // 与图片的多对多关系
-    @ManyToMany
-    @JoinTable(
-            joinColumns = {@JoinColumn(name = "topic_id")},
-            inverseJoinColumns = {@JoinColumn(name = "picture_id")}
-    )
+    @ManyToMany(mappedBy = "topics")
     private List<Picture> pictures;
 
     @Id

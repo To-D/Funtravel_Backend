@@ -10,7 +10,7 @@ import java.util.Date;
 @Table(name="comments")
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer","handler"})
 public class Comment {
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "picture_id")
     private Picture picture;
 
