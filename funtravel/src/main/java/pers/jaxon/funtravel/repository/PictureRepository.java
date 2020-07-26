@@ -15,7 +15,7 @@ public interface PictureRepository extends JpaRepository<Picture, Long> {
     @Query(value = "select * from pictures order by collection_count desc limit 5", nativeQuery = true)
     List<Picture> findHottestPictures();
 
-    @Query(value = "select * from pictures order by release_time desc limit 3", nativeQuery = true)
+    @Query(value = "select * from pictures order by upload_time desc limit 3", nativeQuery = true)
     List<Picture> findNewestPictures();
 
     @Query(value = "select * from pictures where title Like :keyword ORDER BY collection_count DESC",nativeQuery = true)

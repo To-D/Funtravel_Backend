@@ -7,6 +7,7 @@ import pers.jaxon.funtravel.controller.request.CollectRequest;
 import pers.jaxon.funtravel.controller.request.SearchRequest;
 import pers.jaxon.funtravel.domain.Comment;
 import pers.jaxon.funtravel.domain.Picture;
+import pers.jaxon.funtravel.domain.Topic;
 import pers.jaxon.funtravel.domain.User;
 import pers.jaxon.funtravel.repository.CommentRepository;
 import pers.jaxon.funtravel.repository.PictureRepository;
@@ -30,13 +31,29 @@ public class PictureService {
         this.topicRepository = topicRepository;
     }
 
-    public List<Picture> getHottestPictures() {
-        return pictureRepository.findHottestPictures();
+    public Map<String,List> getHottestPictures() {
+        List<Picture> pictures = pictureRepository.findHottestPictures();
+        List<Set> topics = new LinkedList<>();
+        for(Picture picture:pictures){
+            topics.add(picture.getTopics());
+        }
+        Map<String,List> res = new HashMap<>();
+        res.put("pictures",pictures);
+        res.put("topics",topics);
+        return res;
     }
 
 
-    public List<Picture> getNewestPictures() {
-        return pictureRepository.findNewestPictures();
+    public Map<String,List> getNewestPictures() {
+        List<Picture> pictures = pictureRepository.findNewestPictures();
+        List<Set> topics = new LinkedList<>();
+        for(Picture picture:pictures){
+            topics.add(picture.getTopics());
+        }
+        Map<String,List> res = new HashMap<>();
+        res.put("pictures",pictures);
+        res.put("topics",topics);
+        return res;
     }
 
     public Picture getPictureDetail(Long id) {

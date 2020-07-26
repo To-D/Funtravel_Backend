@@ -20,15 +20,15 @@ public class PictureController {
     private PictureService pictureService;
 
     @PostMapping("/getHottestPictures")
-    public ResponseEntity<List> getHot() {
-        List<Picture> hottest = pictureService.getHottestPictures();
+    public ResponseEntity<Map> getHot() {
+        Map<String, List> hottest = pictureService.getHottestPictures();
         return ResponseEntity.ok(hottest);
     }
 
     @PostMapping("/getNewestPictures")
-    public ResponseEntity<List> getNew() {
+    public ResponseEntity<Map> getNew() {
 //        List<Picture> newest = pictureService.getNewestPictures();
-        List<String> newest = new LinkedList<>();
+        Map<String, List> newest = pictureService.getNewestPictures();
         return ResponseEntity.ok(newest);
 
     }
