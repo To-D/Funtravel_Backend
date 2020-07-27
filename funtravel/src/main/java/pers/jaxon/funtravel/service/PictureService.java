@@ -2,6 +2,8 @@ package pers.jaxon.funtravel.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import pers.jaxon.funtravel.controller.request.PostCommentRequest;
 import pers.jaxon.funtravel.controller.request.CollectRequest;
 import pers.jaxon.funtravel.controller.request.SearchRequest;
@@ -14,6 +16,10 @@ import pers.jaxon.funtravel.repository.PictureRepository;
 import pers.jaxon.funtravel.repository.TopicRepository;
 import pers.jaxon.funtravel.repository.UserRepository;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.*;
 
 @Service
@@ -136,5 +142,83 @@ public class PictureService {
             return pictureRepository.findByTopicAndUploadTime(keyword);
         }
         return res;
+    }
+
+    public String uploadPicture(HttpServletRequest request) {
+        MultipartHttpServletRequest params=((MultipartHttpServletRequest) request);
+
+        // Get request params
+        String title = params.getParameter("title");
+        String author = params.getParameter("author");
+        String intro = params.getParameter("intro");
+        String nation = params.getParameter("nation");
+        String city = params.getParameter("city");
+        String username = params.getParameter("username");
+        Date uploadTime = new Date();
+        String[] topics = params.getParameter("topics").split(",");
+
+        // Rename file
+        long time = System.currentTimeMillis();
+        String url = title  + Long.toString(time) + ".jpg";
+        String storePath = "D:\\images\\" + url;
+
+        // Get file
+        MultipartFile file = ((MultipartHttpServletRequest) request).getFile("file");
+        assert file != null;
+        String type = file.getContentType();
+        assert type != null;
+        if(!type.equals("image/jpeg")){
+            return "Only JPG is allowed";
+        }
+        if (!file.isEmpty()) {
+            try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(
+                    new File(storePath)))) {
+                byte[] bytes = file.getBytes();
+                stream.write(bytes);
+            } catch (Exception e) {
+                return "You failed to upload " + " => " + e.getMessage();
+            }
+        } else {
+            return "You failed to upload " + " because the file was empty.";
+        }
+
+        // Build new picture
+        Picture picture = new Picture();
+        picture.setUrl(url);
+        picture.setTitle(title);
+        picture.setNation(nation);
+        picture.setCity(city);
+        picture.setIntro(intro);
+        picture.setAuthor(author);
+        picture.setCollectionCount((long)0);
+        picture.setUploadTime(uploadTime);
+        Set<Topic> picture_topics = new HashSet<>();
+        picture.setTopics(picture_topics);
+
+        // Build relationship
+        // user and picture
+        User user = userRepository.findByUsername(username);
+        picture.setUploader(user);
+        user.getUploads().add(picture);
+
+        //picture and topic
+        Topic tmpTopic;
+        for(String topic :topics){
+            System.out.println(topic);
+            tmpTopic = topicRepository.findByTopic(topic);
+            if(tmpTopic != null){
+                tmpTopic.getPictures().add(picture);
+                picture.getTopics().add(tmpTopic);
+            }else{
+                tmpTopic = new Topic(topic);
+                picture.getTopics().add(tmpTopic);
+                tmpTopic.getPictures().add(picture);
+            }
+            topicRepository.save(tmpTopic);
+        }
+
+        pictureRepository.save(picture);
+        userRepository.save(user);
+        return "success";
     }
 }

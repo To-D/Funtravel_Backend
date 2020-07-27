@@ -1,13 +1,19 @@
 package pers.jaxon.funtravel.domain;
 
 import javax.persistence.*;
+import java.util.LinkedList;
 import java.util.List;
 
 
 @Entity
 @Table(name="topics")
 public class Topic {
+    public Topic(){}
 
+    public Topic(String topic){
+        this.topic = topic;
+        this.pictures = new LinkedList<>();
+    }
     // 与图片的多对多关系
     @ManyToMany(mappedBy = "topics")
     private List<Picture> pictures;

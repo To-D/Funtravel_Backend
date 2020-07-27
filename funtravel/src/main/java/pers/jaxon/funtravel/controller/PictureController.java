@@ -12,6 +12,7 @@ import pers.jaxon.funtravel.domain.Topic;
 import pers.jaxon.funtravel.service.PictureService;
 
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @RestController
@@ -27,7 +28,6 @@ public class PictureController {
 
     @PostMapping("/getNewestPictures")
     public ResponseEntity<Map> getNew() {
-//        List<Picture> newest = pictureService.getNewestPictures();
         Map<String, List> newest = pictureService.getNewestPictures();
         return ResponseEntity.ok(newest);
 
@@ -71,5 +71,11 @@ public class PictureController {
     public ResponseEntity<List> search(@RequestBody SearchRequest request){
         List<Picture> res = pictureService.search(request);
         return ResponseEntity.ok(res);
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadPicture(HttpServletRequest request){
+            String res = pictureService.uploadPicture(request);
+            return ResponseEntity.ok(res);
     }
 }
