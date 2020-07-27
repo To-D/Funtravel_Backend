@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import pers.jaxon.funtravel.controller.request.CanModifyRequest;
 import pers.jaxon.funtravel.controller.request.PostCommentRequest;
 import pers.jaxon.funtravel.controller.request.CollectRequest;
 import pers.jaxon.funtravel.controller.request.SearchRequest;
@@ -147,61 +148,50 @@ public class PictureService {
     public String uploadPicture(HttpServletRequest request) {
         MultipartHttpServletRequest params=((MultipartHttpServletRequest) request);
 
-        // Get request params
+        // Prepare generic params
         String title = params.getParameter("title");
         String author = params.getParameter("author");
-        String intro = params.getParameter("intro");
         String nation = params.getParameter("nation");
         String city = params.getParameter("city");
-        String username = params.getParameter("username");
-        Date uploadTime = new Date();
+        String intro = params.getParameter("intro");
         String[] topics = params.getParameter("topics").split(",");
+        Date uploadTime = new Date();
+        String url;
 
-        // Rename file
-        long time = System.currentTimeMillis();
-        String url = title  + Long.toString(time) + ".jpg";
-        String storePath = "D:\\images\\" + url;
+        String pictureId = params.getParameter("pictureId");
+        Picture picture;
+        // pictureId == null means it's a upload
+        if(pictureId == null){
+            //Create new picture
+            picture = new Picture();
 
-        // Get file
-        MultipartFile file = ((MultipartHttpServletRequest) request).getFile("file");
-        assert file != null;
-        String type = file.getContentType();
-        assert type != null;
-        if(!type.equals("image/jpeg")){
-            return "Only JPG is allowed";
+            // Rename file
+            long time = System.currentTimeMillis();
+            url = title  + Long.toString(time) + ".jpg";
+            picture.setUrl(url); //修改的时候不改文件存储位置，不然映射出错
+
+            // Build relationship: user and picture
+            String username = params.getParameter("username");
+            User user = userRepository.findByUsername(username);
+            picture.setUploader(user);
+            user.getUploads().add(picture);
+            userRepository.save(user);
+        }else{ // picture ！= null means it's a modification
+            picture = pictureRepository.findById(Long.parseLong(pictureId)).get();
+            url = picture.getUrl();
         }
-        if (!file.isEmpty()) {
-            try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(
-                    new File(storePath)))) {
-                byte[] bytes = file.getBytes();
-                stream.write(bytes);
-            } catch (Exception e) {
-                return "You failed to upload " + " => " + e.getMessage();
-            }
-        } else {
-            return "You failed to upload " + " because the file was empty.";
-        }
-
-        // Build new picture
-        Picture picture = new Picture();
-        picture.setUrl(url);
+        // Set generic params
         picture.setTitle(title);
+        picture.setAuthor(author);
         picture.setNation(nation);
         picture.setCity(city);
         picture.setIntro(intro);
-        picture.setAuthor(author);
         picture.setCollectionCount((long)0);
         picture.setUploadTime(uploadTime);
+
+        //Build relationship: picture and topic
         Set<Topic> picture_topics = new HashSet<>();
         picture.setTopics(picture_topics);
-
-        // Build relationship
-        // user and picture
-        User user = userRepository.findByUsername(username);
-        picture.setUploader(user);
-        user.getUploads().add(picture);
-
-        //picture and topic
         Topic tmpTopic;
         for(String topic :topics){
             System.out.println(topic);
@@ -217,8 +207,46 @@ public class PictureService {
             topicRepository.save(tmpTopic);
         }
 
+        // Store file
+        String storePath = "D:\\images\\" + url;
+        MultipartFile file = ((MultipartHttpServletRequest) request).getFile("file");
+        if(file != null) {
+            String type = file.getContentType();
+            assert type != null;
+            if (!type.equals("image/jpeg")) {
+                return "Only JPG is allowed";
+            }
+            if (!file.isEmpty()) {
+                try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(
+                        new File(storePath)))) {
+                    byte[] bytes = file.getBytes();
+                    stream.write(bytes);
+                } catch (Exception e) {
+                    return "You failed to upload " + " => " + e.getMessage();
+                }
+            } else {
+                return "You failed to upload " + " because the file was empty.";
+            }
+
+        }
         pictureRepository.save(picture);
-        userRepository.save(user);
         return "success";
+    }
+
+    public Map<String, Object> canModify(CanModifyRequest request) {
+        Map<String,Object> res = new HashMap<>();
+
+        String username = request.getUsername();
+        Long pictureId = request.getPictureId();
+        User user = userRepository.findByUsername(username);
+        Picture picture = pictureRepository.findById(pictureId).get();
+        if(picture.getUploader() == user){
+            res.put("message","yes");
+            res.put("picture",picture);
+            res.put("topics",picture.getTopics());
+        }else{
+            res.put("message","no");
+        }
+        return res;
     }
 }

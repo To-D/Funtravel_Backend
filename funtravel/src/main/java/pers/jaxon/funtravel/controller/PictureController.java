@@ -3,10 +3,7 @@ package pers.jaxon.funtravel.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pers.jaxon.funtravel.controller.request.GetPictureDetailRequest;
-import pers.jaxon.funtravel.controller.request.PostCommentRequest;
-import pers.jaxon.funtravel.controller.request.CollectRequest;
-import pers.jaxon.funtravel.controller.request.SearchRequest;
+import pers.jaxon.funtravel.controller.request.*;
 import pers.jaxon.funtravel.domain.Picture;
 import pers.jaxon.funtravel.domain.Topic;
 import pers.jaxon.funtravel.service.PictureService;
@@ -77,5 +74,11 @@ public class PictureController {
     public ResponseEntity<String> uploadPicture(HttpServletRequest request){
             String res = pictureService.uploadPicture(request);
             return ResponseEntity.ok(res);
+    }
+
+    @PostMapping("/canModify")
+    public ResponseEntity<Map> canModify(@RequestBody CanModifyRequest request){
+        Map<String,Object> res = pictureService.canModify(request);
+        return ResponseEntity.ok(res);
     }
 }
