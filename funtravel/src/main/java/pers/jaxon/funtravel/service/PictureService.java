@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import pers.jaxon.funtravel.controller.request.CanModifyRequest;
-import pers.jaxon.funtravel.controller.request.PostCommentRequest;
-import pers.jaxon.funtravel.controller.request.CollectRequest;
-import pers.jaxon.funtravel.controller.request.SearchRequest;
+import pers.jaxon.funtravel.controller.request.*;
 import pers.jaxon.funtravel.domain.Comment;
 import pers.jaxon.funtravel.domain.Picture;
 import pers.jaxon.funtravel.domain.Topic;
@@ -248,5 +245,31 @@ public class PictureService {
             res.put("message","no");
         }
         return res;
+    }
+
+    public List<Picture> getMyPictures(GetMyPicturesRequest request) {
+        String username = request.getUsername();
+        User user = userRepository.findByUsername(username);
+        return user.getUploads();
+    }
+
+    public String deletePicture(GetPictureDetailRequest request) {
+        Long id = request.getId();
+        Picture picture = pictureRepository.findById(id).get();
+
+        // 从收藏关系的维护端删除关系
+        Set<User> users = picture.getCollectors();
+        for(User user: users){
+            user.getCollections().remove(picture);
+            userRepository.save(user);
+        }
+        pictureRepository.delete(picture);
+        return "success";
+    }
+
+    public List<Picture> getMyFavorite(GetMyPicturesRequest request) {
+        String username = request.getUsername();
+        User user = userRepository.findByUsername(username);
+        return user.getCollections();
     }
 }

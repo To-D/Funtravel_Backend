@@ -81,4 +81,22 @@ public class PictureController {
         Map<String,Object> res = pictureService.canModify(request);
         return ResponseEntity.ok(res);
     }
+
+    @PostMapping("/getMyPictures")
+    public ResponseEntity<List> getMyPictures(@RequestBody GetMyPicturesRequest request){
+        List<Picture> res = pictureService.getMyPictures(request);
+        return ResponseEntity.ok(res);
+    }
+
+    @PostMapping("/getMyFavorite")
+    public ResponseEntity<List> getMyFavorite(@RequestBody GetMyPicturesRequest request){
+        List<Picture> res = pictureService.getMyFavorite(request);
+        return ResponseEntity.ok(res);
+    }
+
+    @PostMapping("/deletePicture")
+    public ResponseEntity<String> deletePicture(@RequestBody GetPictureDetailRequest request){
+        String res = pictureService.deletePicture(request);
+        return ResponseEntity.ok(res);
+    }
 }

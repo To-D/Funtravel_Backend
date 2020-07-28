@@ -29,7 +29,7 @@ public class Picture {
     private Set<Topic> topics;
 
     // 对comment的一对多关系
-    @OneToMany(mappedBy = "picture",fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "picture",fetch=FetchType.EAGER,cascade={CascadeType.REMOVE})
     private Set<Comment> comments;
 
     @Id

@@ -3,12 +3,14 @@ package pers.jaxon.funtravel;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import pers.jaxon.funtravel.controller.request.GetPictureDetailRequest;
 import pers.jaxon.funtravel.domain.Comment;
 import pers.jaxon.funtravel.domain.Picture;
 import pers.jaxon.funtravel.domain.Topic;
 import pers.jaxon.funtravel.repository.CommentRepository;
 import pers.jaxon.funtravel.repository.PictureRepository;
 import pers.jaxon.funtravel.repository.TopicRepository;
+import pers.jaxon.funtravel.service.PictureService;
 
 import java.sql.SQLOutput;
 import java.util.List;
@@ -17,12 +19,15 @@ import java.util.List;
 class FuntravelApplicationTests {
 
 	@Autowired
-	TopicRepository topicRepository;
+	PictureService pictureService;
 
 	@Test
 	void contextLoads() {
-		Topic topic = topicRepository.findByTopic("Nature");
-		System.out.println(topic.getTopic());
+//		Topic topic = topicRepository.findByTopic("Nature");
+//		System.out.println(topic.getTopic());
+		GetPictureDetailRequest getPictureDetailRequest = new GetPictureDetailRequest();
+		getPictureDetailRequest.setId((long)15);
+ 		pictureService.deletePicture(getPictureDetailRequest);
 //		System.out.println("title and count");
 //		List<Picture> pictures = pictureRepository.findByTitleAndCollectionCount("%t%");
 //		for(Picture picture :pictures){
