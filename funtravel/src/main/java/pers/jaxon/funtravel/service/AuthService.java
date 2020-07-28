@@ -1,5 +1,6 @@
 package pers.jaxon.funtravel.service;
 
+import pers.jaxon.funtravel.controller.request.SetViewRequest;
 import pers.jaxon.funtravel.domain.User;
 import pers.jaxon.funtravel.repository.UserRepository;
 import pers.jaxon.funtravel.controller.request.RegisterRequest;
@@ -69,5 +70,13 @@ public class AuthService {
                 return "badCredentials";
             }
         }
+    }
+
+    public void setView(SetViewRequest request) {
+        String username = request.getUsername();
+        int view = request.getView();
+        User user = userRepository.findByUsername(username);
+        user.setView(view);
+        userRepository.save(user);
     }
 }

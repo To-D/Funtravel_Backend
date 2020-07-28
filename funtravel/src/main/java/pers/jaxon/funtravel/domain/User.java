@@ -42,13 +42,8 @@ public class User implements UserDetails {
     @Column(name="email",nullable = false,unique = true)
     private String email;
 
-//    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-//    private Set<Conference> conferences = new HashSet<>();
-//
-//    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy = "user")
-//    @JsonManagedReference
-//    private Set<Message> messages = new HashSet<>();
-
+    @Column(name="view",nullable = false)
+    private int view;
 
     public User() {
     }
@@ -132,6 +127,22 @@ public class User implements UserDetails {
 
     public void setCollections(List<Picture> collections) {
         this.collections = collections;
+    }
+
+    public List<User> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<User> friends) {
+        this.friends = friends;
+    }
+
+    public int getView() {
+        return view;
+    }
+
+    public void setView(int view) {
+        this.view = view;
     }
 
     @Override

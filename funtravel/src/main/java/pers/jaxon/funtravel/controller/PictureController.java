@@ -99,4 +99,5 @@ public class PictureController {
         String res = pictureService.deletePicture(request);
         return ResponseEntity.ok(res);
     }
+
 }

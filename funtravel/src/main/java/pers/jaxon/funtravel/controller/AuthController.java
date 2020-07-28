@@ -1,5 +1,6 @@
 package pers.jaxon.funtravel.controller;
 
+import pers.jaxon.funtravel.controller.request.SetViewRequest;
 import pers.jaxon.funtravel.domain.User;
 import pers.jaxon.funtravel.security.jwt.JwtTokenUtil;
 import pers.jaxon.funtravel.service.AuthService;
@@ -53,4 +54,10 @@ public class AuthController {
             return ResponseEntity.ok(response);
         }
     }
-}
+
+    @PostMapping("/setView")
+    public ResponseEntity<String> setView(@RequestBody SetViewRequest request) {
+        authService.setView(request);
+        return ResponseEntity.ok("success");
+    }
+    }
