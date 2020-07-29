@@ -100,4 +100,10 @@ public class UserController {
         userService.alreadyRead(request);
         return ResponseEntity.ok("success");
     }
+
+    @PostMapping("/getView")
+    public ResponseEntity<Boolean> getView(@RequestBody GetMyPicturesRequest request) {
+        Boolean res = userService.getView(request);
+        return ResponseEntity.ok(res);
+    }
 }

@@ -224,4 +224,14 @@ public class UserService {
         Message message = messageRepository.findById(id).get();
         messageRepository.delete(message);
     }
+
+    public Boolean getView(GetMyPicturesRequest request) {
+        String username = request.getUsername();
+        User user = userRepository.findByUsername(username);
+        if(user.getView() == 1){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
