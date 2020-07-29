@@ -230,7 +230,7 @@
 
 ### 前端
 
-<img src="\mdImages\image-20200729160538488.png" alt="image-20200729160538488" style="zoom:80%;" />
+<img src="funtravel\mdImages\image-20200729160538488.png" alt="image-20200729160538488" style="zoom:80%;" />
 
 <center>图 1 前端主要组件</center>
 
@@ -342,7 +342,7 @@
 
 #### 2. 业务模块划分
 
-<img src="\mdImages\image-20200729164756795.png" alt="image-20200729164756795" style="zoom:80%;" />
+<img src="funtravel\mdImages\image-20200729164756795.png" alt="image-20200729164756795" style="zoom:80%;" />
 
 <center>图 10 后端项目结构</center>
 
