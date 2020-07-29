@@ -230,7 +230,7 @@
 
 ### 前端
 
-<img src="funtravel\mdImages\image-20200729160538488.png" alt="image-20200729160538488" style="zoom:80%;" />
+<img src="https://github.com/To-D/Funtravel_Backend/blob/master/funtravel/mdImages/image-20200729160538488.png" alt="image-20200729160538488" style="zoom:80%;" />
 
 <center>图 1 前端主要组件</center>
 
