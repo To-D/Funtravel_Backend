@@ -1,6 +1,6 @@
 package pers.jaxon.funtravel.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
@@ -14,7 +14,10 @@ public class User implements UserDetails {
 
     // 与picture的一对多上传关系
     @OneToMany(mappedBy = "uploader",fetch=FetchType.EAGER,cascade={CascadeType.REMOVE})
-    private List<Picture> uploads;
+    private Set<Picture> uploads;
+
+    @OneToMany(mappedBy = "target",fetch=FetchType.EAGER,cascade={CascadeType.REMOVE})
+    private Set<Message> messages;
 
     // 与picture的一对多收藏关系
     @ManyToMany(fetch=FetchType.EAGER)
@@ -22,11 +25,12 @@ public class User implements UserDetails {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "collection_id")}
     )
-    private List<Picture> collections;
+    private Set<Picture> collections;
 
     // 与user的多对多好友关系
     @ManyToMany
-    private List<User> friends;
+    @JsonIgnore
+    private Set<User> friends;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,6 +48,10 @@ public class User implements UserDetails {
 
     @Column(name="view",nullable = false)
     private int view;
+
+    @Column(name="register_time",nullable = false)
+    private Date registerTime;
+
 
     public User() {
     }
@@ -113,27 +121,27 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public List<Picture> getUploads() {
+    public Set<Picture> getUploads() {
         return uploads;
     }
 
-    public void setUploads(List<Picture> uploads) {
+    public void setUploads(Set<Picture> uploads) {
         this.uploads = uploads;
     }
 
-    public List<Picture> getCollections() {
+    public Set<Picture> getCollections() {
         return collections;
     }
 
-    public void setCollections(List<Picture> collections) {
+    public void setCollections(Set<Picture> collections) {
         this.collections = collections;
     }
 
-    public List<User> getFriends() {
+    public Set<User> getFriends() {
         return friends;
     }
 
-    public void setFriends(List<User> friends) {
+    public void setFriends(Set<User> friends) {
         this.friends = friends;
     }
 
@@ -144,6 +152,23 @@ public class User implements UserDetails {
     public void setView(int view) {
         this.view = view;
     }
+
+    public Set<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(Set<Message> messages) {
+        this.messages = messages;
+    }
+
+    public Date getRegisterTime() {
+        return registerTime;
+    }
+
+    public void setRegisterTime(Date registerTime) {
+        this.registerTime = registerTime;
+    }
+
 
     @Override
     public String toString() {

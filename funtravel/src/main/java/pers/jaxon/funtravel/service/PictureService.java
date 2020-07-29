@@ -247,7 +247,7 @@ public class PictureService {
         return res;
     }
 
-    public List<Picture> getMyPictures(GetMyPicturesRequest request) {
+    public Set<Picture> getMyPictures(GetMyPicturesRequest request) {
         String username = request.getUsername();
         User user = userRepository.findByUsername(username);
         return user.getUploads();
@@ -267,9 +267,22 @@ public class PictureService {
         return "success";
     }
 
-    public List<Picture> getMyFavorite(GetMyPicturesRequest request) {
+    public Set<Picture> getMyFavorite(GetMyPicturesRequest request) {
         String username = request.getUsername();
         User user = userRepository.findByUsername(username);
         return user.getCollections();
+    }
+
+    public Map<String,Object> getFriendFavorite(GetMyPicturesRequest request) {
+        Map<String,Object> res = new HashMap<>();
+
+        String username = request.getUsername();
+        User user = userRepository.findByUsername(username);
+        int view = user.getView();
+        res.put("view",view);
+        if(view == 1){
+            res.put("pictures",user.getCollections());
+        }
+        return res;
     }
 }

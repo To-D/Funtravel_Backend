@@ -83,20 +83,26 @@ public class PictureController {
     }
 
     @PostMapping("/getMyPictures")
-    public ResponseEntity<List> getMyPictures(@RequestBody GetMyPicturesRequest request){
-        List<Picture> res = pictureService.getMyPictures(request);
+    public ResponseEntity<Set> getMyPictures(@RequestBody GetMyPicturesRequest request){
+        Set<Picture> res = pictureService.getMyPictures(request);
         return ResponseEntity.ok(res);
     }
 
     @PostMapping("/getMyFavorite")
-    public ResponseEntity<List> getMyFavorite(@RequestBody GetMyPicturesRequest request){
-        List<Picture> res = pictureService.getMyFavorite(request);
+    public ResponseEntity<Set> getMyFavorite(@RequestBody GetMyPicturesRequest request){
+        Set<Picture> res = pictureService.getMyFavorite(request);
         return ResponseEntity.ok(res);
     }
 
     @PostMapping("/deletePicture")
     public ResponseEntity<String> deletePicture(@RequestBody GetPictureDetailRequest request){
         String res = pictureService.deletePicture(request);
+        return ResponseEntity.ok(res);
+    }
+
+    @PostMapping("/getFriendFavorite")
+    public ResponseEntity<Map> getFriendFavorite(@RequestBody GetMyPicturesRequest request) {
+        Map<String,Object> res = pictureService.getFriendFavorite(request);
         return ResponseEntity.ok(res);
     }
 
