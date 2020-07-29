@@ -230,7 +230,7 @@
 
 ### 前端
 
-<img src="C:\Users\12444\AppData\Roaming\Typora\typora-user-images\image-20200729160538488.png" alt="image-20200729160538488" style="zoom:80%;" />
+<img src="\mdImages\image-20200729160538488.png" alt="image-20200729160538488" style="zoom:80%;" />
 
 <center>图 1 前端主要组件</center>
 
@@ -272,7 +272,7 @@
   - 前端使用的主色调是黑白灰，网页标题、图片标题等使用的是纯度很高的黑/白色，而一些辅助信息使用的是灰色
   - 前端使用的辅助色是`"#f48840"`,主要用于一些点缀，如按钮的背景色，logo的点缀色，icon的颜色等，增加网站的趣味性和色彩，避免过于单调。
 
-  <img src="C:\Users\12444\AppData\Roaming\Typora\typora-user-images\image-20200729161309896.png" alt="image-20200729161309896" style="zoom:80%;" />
+  <img src="\mdImages\image-20200729161309896.png" alt="image-20200729161309896" style="zoom:80%;" />
 
   <center> 图 2 UI辅助色</center>
 
@@ -289,7 +289,7 @@
 
   - 在一些细节上，例如图片的展示上，则遵循了一个不那么严格的统一，既将图片置于一个卡片之中，设置阴影。
 
-    <img src="C:\Users\12444\AppData\Roaming\Typora\typora-user-images\image-20200729162807658.png" alt="image-20200729162807658" style="zoom:80%;" />
+    <img src="\mdImages\image-20200729162807658.png" alt="image-20200729162807658" style="zoom:80%;" />
 
     <center>图 3  图片展示卡片的版式设计</center>
 
@@ -297,37 +297,37 @@
 
   - **登录页**
 
-    <img src="C:\Users\12444\AppData\Roaming\Typora\typora-user-images\image-20200729163130891.png" alt="image-20200729163130891" style="zoom: 80%;" />
+    <img src="\mdImages\image-20200729163130891.png" alt="image-20200729163130891" style="zoom: 80%;" />
 
     <center>图 4  登录页</center>
 
   - **主页**
 
-    <img src="C:\Users\12444\AppData\Roaming\Typora\typora-user-images\image-20200729163309867.png" alt="image-20200729163309867" style="zoom:80%;" />
+    <img src="\mdImages\image-20200729163309867.png" alt="image-20200729163309867" style="zoom:80%;" />
     
     <center>图 5 主页</center>
     
   - **搜索页**
   
-    <img src="C:\Users\12444\AppData\Roaming\Typora\typora-user-images\image-20200729163746592.png" alt="image-20200729163746592" style="zoom:80%;" />
+    <img src="\mdImages\image-20200729163746592.png" alt="image-20200729163746592" style="zoom:80%;" />
     
     <center>图 6 搜索页</center>
     
   - **图片详情页**
   
-    <img src="C:\Users\12444\AppData\Roaming\Typora\typora-user-images\image-20200729163621167.png" alt="image-20200729163621167" style="zoom:80%;" />
+    <img src="\mdImages\image-20200729163621167.png" alt="image-20200729163621167" style="zoom:80%;" />
     
     <center>图 7 图片详情页</center>
     
   - **图片上传页**
   
-    <img src="C:\Users\12444\AppData\Roaming\Typora\typora-user-images\image-20200729163722891.png" alt="image-20200729163722891" style="zoom:80%;" />
+    <img src="\mdImages\image-20200729163722891.png" alt="image-20200729163722891" style="zoom:80%;" />
     
     <center>图 8 图片上传页</center>
     
   - **好友页**
   
-    <img src="C:\Users\12444\AppData\Roaming\Typora\typora-user-images\image-20200729163824886.png" alt="image-20200729163824886" style="zoom:80%;" />
+    <img src="\mdImages\image-20200729163824886.png" alt="image-20200729163824886" style="zoom:80%;" />
     
     <center>图 9 我的好友页</center>
 
@@ -342,7 +342,7 @@
 
 #### 2. 业务模块划分
 
-<img src="C:\Users\12444\AppData\Roaming\Typora\typora-user-images\image-20200729164756795.png" alt="image-20200729164756795" style="zoom:80%;" />
+<img src="\mdImages\image-20200729164756795.png" alt="image-20200729164756795" style="zoom:80%;" />
 
 <center>图 10 后端项目结构</center>
 
@@ -358,7 +358,7 @@ JWT的功能相对独立，且与Security关联比较重，所以放置在了sec
 
 ##### 2.1 数据库结构概述
 
-![image-20200729165156465](C:\Users\12444\AppData\Roaming\Typora\typora-user-images\image-20200729165156465.png)
+![image-20200729165156465](\mdImages\image-20200729165156465.png)
 
 <center>图 11 项目数据库结构</center>
 
@@ -418,7 +418,7 @@ Long|VARCHAR
 
 这些数据表之间的关系可以用下面的图表示：
 
-![image-20200729172416939](C:\Users\12444\AppData\Roaming\Typora\typora-user-images\image-20200729172416939.png)
+![image-20200729172416939](\mdImages\image-20200729172416939.png)
 
 <center>图 12 数据表之间的关系</center>
 
@@ -582,7 +582,7 @@ Long|VARCHAR
 
 当用户收到新的好友消息时，用户在其他页面是无法知晓的，这样会带来不好的用户体验。因此我在navbar组件中加入了一个红点提醒，当有消息时，用户名那一项会出现红点，鼠标悬浮在上面时，会看到MyFriends表单项出现红点，再点击MyFriends进入我的好友页面，就可以通过左边好友列表中的Message按钮来处理消息。其内部实现机制是navbar组件每次创建时，都会像后端的`/hasMessage`接口发送一个请求，如果返回true，它就会出现红点提示。
 
-<img src="C:\Users\12444\AppData\Roaming\Typora\typora-user-images\image-20200729183429686.png" alt="image-20200729183429686" style="zoom:80%;" />
+<img src="\mdImages\image-20200729183429686.png" alt="image-20200729183429686" style="zoom:80%;" />
 
 <center>图 13 消息提醒引导</center>
 
