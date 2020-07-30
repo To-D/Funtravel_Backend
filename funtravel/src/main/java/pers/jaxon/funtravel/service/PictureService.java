@@ -61,7 +61,7 @@ public class PictureService {
     }
 
     public Picture getPictureDetail(Long id) {
-        return pictureRepository.findById(id).get();
+        return pictureRepository.findById(id).orElse(null);
     }
 
     public void addComment(PostCommentRequest request) {
@@ -236,7 +236,12 @@ public class PictureService {
         String username = request.getUsername();
         Long pictureId = request.getPictureId();
         User user = userRepository.findByUsername(username);
-        Picture picture = pictureRepository.findById(pictureId).get();
+        Picture picture = pictureRepository.findById(pictureId).orElse(null);
+        if(picture == null){
+            res.put("message","notfound");
+            return res;
+        }
+
         if(picture.getUploader() == user){
             res.put("message","yes");
             res.put("picture",picture);
@@ -256,6 +261,8 @@ public class PictureService {
     public String deletePicture(GetPictureDetailRequest request) {
         Long id = request.getId();
         Picture picture = pictureRepository.findById(id).get();
+        //获得存储路径
+        String filePath = "D:/images/"+picture.getUrl();
 
         // 从收藏关系的维护端删除关系
         Set<User> users = picture.getCollectors();
@@ -264,6 +271,13 @@ public class PictureService {
             userRepository.save(user);
         }
         pictureRepository.delete(picture);
+
+
+        // 删除图片
+        File file = new File(filePath);
+        if (file.exists()){
+            file.delete();
+        }
         return "success";
     }
 

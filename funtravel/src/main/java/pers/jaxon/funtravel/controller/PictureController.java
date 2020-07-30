@@ -33,10 +33,12 @@ public class PictureController {
     @PostMapping("/getPictureDetail")
     public ResponseEntity<Map> getPictureDetail(@RequestBody GetPictureDetailRequest request){
         Picture picture = pictureService.getPictureDetail(request.getId());
-        Set<Topic> topics = picture.getTopics();
         Map<String,Object> map = new HashMap<>();
         map.put("picture",picture);
-        map.put("topics",topics);
+        if(picture != null){
+            Set<Topic> topics = picture.getTopics();
+            map.put("topics",topics);
+        }
         return ResponseEntity.ok(map);
     }
 
