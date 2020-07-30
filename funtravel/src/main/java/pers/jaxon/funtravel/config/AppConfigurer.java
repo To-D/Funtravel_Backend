@@ -9,6 +9,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class AppConfigurer implements WebMvcConfigurer {
+
+        // 配置文件的虚拟路径
         @Override
         public void addResourceHandlers(ResourceHandlerRegistry registry) {
             registry.addResourceHandler("/images/**")
